@@ -1,6 +1,6 @@
 dags:
   gitSync:
     enabled: true
-    repo: ssh://git@github.com/dgonzalez/test-dags.git 
+    repo: https://github.com/dgonzalez/test-dags.git
     branch: master
     subPath: ""
