@@ -43,4 +43,9 @@ with DAG(
         bash_command='date',
     )
 
-    t1 
+    # t1, t2 and t3 are examples of tasks created by instantiating operators
+    t1 = BashOperator(
+        task_id='task_2',
+        bash_command='date',
+    )
+    t1 >> t2
