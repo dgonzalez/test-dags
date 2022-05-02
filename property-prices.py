@@ -6,6 +6,11 @@ from airflow import DAG
 
 # Operators; we need this to operate!
 from airflow.operators.bash import BashOperator
+from airflow.operators.dummy import DummyOperator
+from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
+    KubernetesPodOperator,
+)
+
 with DAG(
     'property-prices',
     # These args will get passed on to each operator
@@ -37,10 +42,8 @@ with DAG(
     tags=['property'],
 ) as dag:
 
-    # t1, t2 and t3 are examples of tasks created by instantiating operators
-    t1 = BashOperator(
-        task_id='task_1',
-        bash_command='date',
+    t1 = DummyOperator(
+        task_id='init'
     )
 
     # t1, t2 and t3 are examples of tasks created by instantiating operators
@@ -48,4 +51,15 @@ with DAG(
         task_id='task_2',
         bash_command='date',
     )
-    t1 >> t2
+
+    k = KubernetesPodOperator(
+	name="hello-dry-run",
+	image="debian",
+	cmds=["bash", "-cx"],
+	arguments=["echo", "10"],
+	labels={"foo": "bar"},
+	task_id="dry_run_demo",
+	do_xcom_push=True,
+    )
+
+    t1 >> t2 >> k
