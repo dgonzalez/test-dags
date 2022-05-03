@@ -1,3 +1,5 @@
+airflow:
+  executor: KubernetesExecutor
 dags:
   gitSync:
     enabled: true
