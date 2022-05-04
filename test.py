@@ -93,4 +93,4 @@ with DAG(
         bash_command=templated_command,
     )
 
-    t1 >> [t4, t5] >> t3
+    t1 >> [t4, t2, t5] >> t3
