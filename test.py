@@ -49,6 +49,20 @@ with DAG(
         bash_command='sleep 5',
         retries=3,
     )
+
+    t4 = BashOperator(
+        task_id='task_4',
+        depends_on_past=False,
+        bash_command='sleep 5',
+        retries=3,
+    )
+
+    t5 = BashOperator(
+        task_id='task_5',
+        depends_on_past=False,
+        bash_command='sleep 5',
+        retries=3,
+    )
     t1.doc_md = dedent(
         """\
     #### Task Documentation
@@ -79,4 +93,4 @@ with DAG(
         bash_command=templated_command,
     )
 
-    t1 >> [t2, t3]
+    t1 >> [t4, t5] >> t3
